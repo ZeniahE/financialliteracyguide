@@ -1,0 +1,124 @@
+body {
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.quicksand {
+  font-family: "Quicksand", serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
+}
+
+header {
+  background-color: #2b7a78;
+  color: #ffffff;
+  padding: 20px 0;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+}
+
+nav {
+  margin-top: 10px;
+}
+
+nav a {
+  color: #ffffff;
+  text-decoration: none;
+  margin: 0 15px;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+.content {
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 7px 6px rgba(43, 122, 120, 0.3),
+    0 -7px 6px rgba(43, 122, 120, 0.3), 7px 0 6px rgba(43, 122, 120, 0.3),
+    -7px 0 6px rgba(43, 122, 120, 0.3);
+  border-radius: 8px;
+  flex: 1;
+}
+
+.content h2 {
+  color: #2b7a78;
+  font-family: "Quicksand", serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+
+footer {
+  text-align: center;
+  padding: 10px;
+  background-color: #2b7a78;
+  color: #ffffff;
+  position: sticky;
+  bottom: 0;
+}
+
+footer p {
+  margin: 0;
+}
+
+.badge {
+  margin-left: 5px;
+}
+
+.lang-badge {
+  background-color: #8fe9cd;
+  color: #000;
+}
+.time-badge {
+  background-color: #2f6084;
+}
+
+.website-badge {
+  background-color: #bcafec;
+}
+.course-badge {
+  background-color: #8e7ad7; /*8e7ad7*/
+}
+.vid-badge {
+  background-color: #6b55b9;
+}
+.blog-badge {
+  background-color: #452d9b;
+}
+.pdf-badge {
+  background-color: #5c1b84;
+}
+.ebook-badge {
+  background-color: #3c0a48;
+}
+
+.key-formatting {
+  margin-bottom: 15px;
+}
+
+#quiz-btn-1 {
+  margin-left: 10px;
+  padding: 5px 10px;
+  /* font-size: 16px; */
+  cursor: pointer;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+#quiz-btn-1:hover {
+  background-color: #45a049;
+}

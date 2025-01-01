@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Financial Literacy Games</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f9;
+      }
+
+      header {
+        background-color: #4caf50;
+        color: white;
+        padding: 1rem;
+        text-align: center;
+      }
+
+      .container {
+        margin: 2rem auto;
+        max-width: 800px;
+        display: flex; /* Use flexbox to align items */
+        justify-content: space-around; /* Space out the cards evenly */
+        flex-wrap: wrap; /* Allow wrapping to the next line if needed */
+        text-align: center;
+      }
+
+      .game-card {
+        background: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        margin: 0.5rem;
+        padding: 1rem;
+        transition: transform 0.3s;
+        max-width: 300px; /* Limit the width of the card */
+        flex-grow: 1; /* Allow the cards to grow and take available space */
+        text-align: center;
+      }
+
+      .game-card:hover {
+        transform: scale(1.05);
+      }
+
+      button {
+        background-color: #4caf50;
+        border: none;
+        color: white;
+        cursor: pointer;
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        margin-top: 1rem;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      #game-area {
+        margin-top: 2rem;
+        text-align: left;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .new-section {
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      th,
+      td {
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #4caf50;
+        color: white;
+      }
+
+      td {
+        background-color: #f9f9f9;
+      }
+
+      .total-row {
+        font-weight: bold;
+      }
+
+      label {
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Financial Literacy Games</h1>
+      <p>Learn financial skills through fun interactive games!</p>
+    </header>
+
+    <div class="container">
+      <div class="game-card" id="budgeting-game">
+        <h2>Budgeting Challenge</h2>
+        <p>Plan your monthly budget and see if you can save money!</p>
+        <button onclick="startBudgetingGame()">Play</button>
+      </div>
+
+      <div class="game-card" id="investing-game">
+        <h2>Investing Simulation</h2>
+        <p>Make investment decisions and grow your portfolio!</p>
+        <button onclick="startInvestingGame()">Play</button>
+      </div>
+
+      <div class="game-card" id="saving-game">
+        <h2>Saving Strategy</h2>
+        <p>Set goals and save for future expenses!</p>
+        <button onclick="startSavingGame()">Play</button>
+      </div>
+
+      <div id="game-area" class="hidden">
+        <h2 id="game-title"></h2>
+        <div id="game-content"></div>
+      </div>
+
+      <div id="budget-table-area" class="hidden">
+        <h2>Your Budget Distribution</h2>
+        <table id="budget-table">
+          <thead>
+            <tr>
+              <th>Section Name</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+          <tfoot>
+            <tr class="total-row">
+              <td>Total</td>
+              <td id="total-amount"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+    <script>
+      const budgetLimit = 3000;
+
+      function startBudgetingGame() {
+        showGame(
+          "Budgeting Challenge",
+          `<p>Welcome to the Budgeting Challenge!</p>
+                <p>Your monthly income is $3000. Distribute your budget among rent, food, entertainment, savings, and other expenses.</p>
+                <form id="budget-form">
+                    <label>Rent: <input type="number" id="rent" min="0" placeholder="e.g., 1000"></label><br>
+                    <label>Food: <input type="number" id="food" min="0" placeholder="e.g., 300"></label><br>
+                    <label>Entertainment: <input type="number" id="entertainment" min="0" placeholder="e.g., 150"></label><br>
+                    <label>Savings: <input type="number" id="savings" min="0" placeholder="e.g., 500"></label><br>
+                    <label>Other: <input type="number" id="other" min="0" placeholder="e.g., 200"></label><br>
+                    <div id="additional-sections"></div>
+                    <button type="button" onclick="addNewSection()">Add New Section</button><br>
+                    <button type="button" onclick="calculateBudget()">Submit</button>
+                </form>
+                <div id="budget-result"></div>`
+        );
+      }
+
+      function addNewSection() {
+        const additionalSectionsDiv = document.getElementById(
+          "additional-sections"
+        );
+        const sectionCount = additionalSectionsDiv.children.length + 1;
+
+        const newSection = document.createElement("div");
+        newSection.classList.add("new-section");
+        newSection.innerHTML = `
+          <label>Section Name: 
+            <input type="text" id="section-name-${sectionCount}" placeholder="e.g., Transportation">
+          </label><br>
+          <label>Amount for "${sectionCount}": 
+            <input type="number" id="new-section-${sectionCount}" min="0" placeholder="Amount for Section ${sectionCount}">
+          </label><br>
+        `;
+        additionalSectionsDiv.appendChild(newSection);
+      }
+
+      function calculateBudget() {
+        const rent = parseInt(document.getElementById("rent").value || 0);
+        const food = parseInt(document.getElementById("food").value || 0);
+        const entertainment = parseInt(
+          document.getElementById("entertainment").value || 0
+        );
+        const savings = parseInt(document.getElementById("savings").value || 0);
+        const other = parseInt(document.getElementById("other").value || 0);
+
+        let total = rent + food + entertainment + savings + other;
+
+        // Store sections names and amounts
+        const sections = [
+          { name: "Rent", amount: rent },
+          { name: "Food", amount: food },
+          { name: "Entertainment", amount: entertainment },
+          { name: "Savings", amount: savings },
+          { name: "Other", amount: other },
+        ];
+
+        // Add amounts from any new sections
+        const additionalSectionsDiv = document.getElementById(
+          "additional-sections"
+        );
+        const newSections = additionalSectionsDiv.getElementsByTagName("input");
+
+        for (let i = 0; i < newSections.length; i += 2) {
+          const sectionName = newSections[i].value;
+          const sectionAmount = parseInt(newSections[i + 1].value || 0);
+
+          if (sectionName && sectionAmount > 0) {
+            sections.push({ name: sectionName, amount: sectionAmount });
+            total += sectionAmount;
+          }
+        }
+
+        // Show results in the table
+        displayBudgetTable(sections, total);
+      }
+
+      function displayBudgetTable(sections, total) {
+        // Show the budget table
+        const tableBody = document
+          .getElementById("budget-table")
+          .getElementsByTagName("tbody")[0];
+        tableBody.innerHTML = ""; // Clear the table before adding data
+
+        sections.forEach((section) => {
+          const row = tableBody.insertRow();
+          const cell1 = row.insertCell(0);
+          const cell2 = row.insertCell(1);
+          cell1.textContent = section.name;
+          cell2.textContent = `$${section.amount}`;
+        });
+
+        const totalRow = document.querySelector(".total-row");
+        const totalCell = document.getElementById("total-amount");
+        totalCell.textContent = `$${total}`;
+
+        const tableArea = document.getElementById("budget-table-area");
+        tableArea.classList.remove("hidden");
+
+        // Display the remaining balance
+        const result = document.getElementById("budget-result");
+        if (total > budgetLimit) {
+          result.innerHTML = `<p style="color: red;">You have exceeded your budget! Total: $${total}</p>`;
+        } else {
+          result.innerHTML = `<p style="color: green;">Great job! Your total is $${total}. You have $${
+            budgetLimit - total
+          } left.</p>`;
+        }
+      }
+
+      function startInvestingGame() {
+        showGame(
+          "Investing Simulation",
+          `<p>Coming soon: Build your portfolio by choosing stocks, bonds, or mutual funds.</p>`
+        );
+      }
+
+      function startSavingGame() {
+        showGame(
+          "Saving Strategy",
+          `<p>Coming soon: Plan your savings to reach your goals efficiently.</p>`
+        );
+      }
+
+      function showGame(title, content) {
+        document.getElementById("game-title").textContent = title;
+        document.getElementById("game-content").innerHTML = content;
+        document.getElementById("game-area").classList.remove("hidden");
+      }
+    </script>
+  </body>
+</html>
